@@ -2,20 +2,20 @@ const userModel = require('../models/userModel');
 const bcrypt = require('bcrypt');
 
 const createNewUser = async (req, res) => {
-  const { nome, cpf, email, telefone, senha } = req.body;
+  const { full_name, cpf, email, phone, password } = req.body;
 
   const saltRounds = 10;
-  const senhaHash = await bcrypt.hash(senha, saltRounds);
+  const passwordHash = await bcrypt.hash(password, saltRounds);
 
   const newUser = await userModel.create({
-    full_name: nome,
+    full_name: full_name,
     cpf: cpf,
     email: email,
-    phone: telefone,
-    password: senhaHash,
+    phone: phone,
+    password: passwordHash,
   });
 
-  console.log("Usuário criado com sucesso!:", newUser.id);
+  
 
   res.status(201).send({
     message: `Usuário ${newUser.full_name}, id ${newUser.id} criado com sucesso! ID: ${newUser.id}`,
