@@ -42,15 +42,12 @@ let userModel = connection.define('users', {
     },
 
     password:{
-        type: DataTypes.STRING(15),
+        type: DataTypes.STRING,
         allowNull: false,
         validade: {
             len: [8, 15]
         }
     },
 });
-
-
-
 
 module.exports = userModel

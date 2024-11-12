@@ -1,5 +1,11 @@
 const connection = require('../database/connection');
 require('../../models/userModel');
+require("../../models/addressModel");
+require("../../models/productModel");
+require("../../models/imageModel");
+require("../../models/categoryModel");
+require("../../models/productCategoryModel");
+require("../../models/productOptionModel");
 
 (async () => {
     try {
