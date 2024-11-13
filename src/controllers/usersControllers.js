@@ -43,7 +43,7 @@ const userList = async (req, res) => {
 
 const userUpdate = async (req, res) => {
   await userModel.update({ ...req.body }, { where: { id: req.params.id } });
-  res.status(201).send({
+  res.status(204).send({
     message: `Usuário alterado com sucesso! ID: ${req.params.id}`,
   });
 };
@@ -52,7 +52,7 @@ const deleteUserById = async (req, res) => {
   await userModel.destroy({
     where: { id: req.params.id },
   });
-  res.status(201).send({
+  res.status(204).send({
     message: `Usuário com ID: ${req.params.id} deletado com sucesso!`,
   });
 };

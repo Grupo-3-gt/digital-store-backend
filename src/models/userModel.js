@@ -24,6 +24,7 @@ let userModel = connection.define("users", {
       len: { args: [11, 11], msg: "O CPF deve ter 11 dígitos" },
     },
   },
+  
   email: {
     type: DataTypes.STRING,
     allowNull: false,

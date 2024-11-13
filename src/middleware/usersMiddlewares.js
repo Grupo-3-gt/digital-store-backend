@@ -13,6 +13,7 @@ async function middlewareCreateUser(req, res, next) {
       phone,
       password,
     });
+    
     await newUser.validate();
 
     const userByEmail = await userModel.findOne({ where: { email: email } });

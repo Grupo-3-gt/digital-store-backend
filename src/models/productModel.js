@@ -11,11 +11,25 @@ let productModel = connection.define("products", {
   name: {
     type: DataTypes.STRING(150),
     allowNull: false,
+    validate: {
+      notEmpty: true,
+      len: {
+        args: [1, 150],
+        msg: "O nome deve ter entre 1 e 150 caracteres.",
+      },
+    },
   },
 
   slug: {
     type: DataTypes.STRING(150),
     allowNull: false,
+    validate: {
+      notEmpty: true,
+      len: {
+        args: [1, 150],
+        msg: "O slug deve ter entre 1 e 150 caracteres.",
+      },
+    },
   },
 
   use_in_menu: {
@@ -27,22 +41,52 @@ let productModel = connection.define("products", {
   stock: {
     type: DataTypes.INTEGER,
     allowNull: true,
-    defaultValue: 0,
+    defaultValue: 1,
+    // validate: {
+    //   min: {
+    //     args: 0,
+    //     msg: "O estoque não pode ser negativo.",
+    //   },
+    // },
   },
 
   description: {
     type: DataTypes.STRING(150),
     allowNull: true,
+    validate: {
+      len: {
+        args: [0, 150],
+        msg: "A descrição deve ter no máximo 150 caracteres.",
+      },
+    },
   },
 
   price: {
     type: DataTypes.FLOAT,
     allowNull: false,
+    validate: {
+      isFloat: {
+        msg: "O preço deve ser um número válido.",
+      },
+      min: {
+        args: [0],
+        msg: "O preço não pode ser negativo.",
+      },
+    },
   },
 
   price_with_discount: {
     type: DataTypes.FLOAT,
     allowNull: true,
+    validate: {
+      isFloat: {
+        msg: "O preço com desconto deve ser um número válido.",
+      },
+      min: {
+        args: [0],
+        msg: "O preço com desconto não pode ser negativo.",
+      },
+    },
   },
 });
 
