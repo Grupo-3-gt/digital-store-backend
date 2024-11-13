@@ -17,7 +17,7 @@ const createNewUser = async (req, res) => {
   });
 
   res.status(201).send({
-    message: `Usuário ${newUser.full_name}, id ${newUser.id} criado com sucesso! ID: ${newUser.id}`,
+    message: `Usuário ${newUser.first_name}, id ${newUser.id} criado com sucesso! ID: ${newUser.id}`,
   });
 };
 
