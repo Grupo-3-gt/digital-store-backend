@@ -7,11 +7,11 @@ let categoryModel = connection.define("category", {
     allowNull: false,
     validate: {
       notEmpty: {
-        msg: "O campo nome não pode estar vazio",
+        msg: "O campo name não pode estar vazio",
       },
       len: {
         args: [1, 150],
-        msg: "O campo nome deve ter entre 1 e 150 caracteres",
+        msg: "O campo name deve ter entre 1 e 150 caracteres",
       },
     },
   },
