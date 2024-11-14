@@ -21,6 +21,9 @@ const createCategory = async (req, res) => {
 };
 
 const getCategoryById = async (req, res) => {
+  if (!id) {
+    return res.status(400).json({ message: "id invalido" });
+  }
     try {
         const category = await Category.findByPk(req.params.id);
 
@@ -116,4 +119,5 @@ module.exports = {
   listCategories,
   updateCategory,
   deleteCategory,
+  getCategoryById
 };
