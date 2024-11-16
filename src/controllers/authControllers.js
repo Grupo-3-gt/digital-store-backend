@@ -14,21 +14,19 @@ const loginAuth = async (req, res) => {
         const hashValid = await bcrypt.compare(password, userPassword)
 
         if ( hashValid ) {
-            const token = jwt.sign({ id: user.id, name: user.name }, jwtSecret, { expiresIn: '3h' })
+            const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, jwtSecret, { expiresIn: '3h' })
             res.send({
-                sucess: true,
                 token: token,
-                message: 'Login realizado com sucesso!'
             })
         } else {
             res.send({
-                sucess: false,
-                token: '',
                 message: 'Usuário ou senha inválidos!'
             })
         }
     } catch (error) {
-        res.send(`Algo deu errado! Erro: ${error}`)
+        res.send({
+            message: `Algo deu errado! Erro: ${error}`
+        })
     }
 }
 

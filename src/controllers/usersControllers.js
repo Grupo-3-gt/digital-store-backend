@@ -24,34 +24,30 @@ const createNewUser = async (req, res) => {
 const findUserById = async (req, res) => {
   const user = await userModel.findOne({
     where: { id: Number(Number(req.params.id)) },
+    attributes: { exclude: ["password"] },
   });
 
   res.status(200).send(user);
 };
 
-const userList = async (req, res) => {
-  try {
-    const users = await userModel.findAll({
-      order: [["id", "ASC"]],
-    });
-  } catch (error) {
-    res.send({
-      message: "Erro ao listar usuários!",
-    });
-  }
-};
-
 const userUpdate = async (req, res) => {
+  if (req.user.id != req.params.id && !req.user.isAdmin) {
+    return res.status(403).json({ message: "Permissão insuficiente" });
+  }
+
   await userModel.update({ ...req.body }, { where: { id: req.params.id } });
-  res.status(201).send({
-    message: `Usuário alterado com sucesso! ID: ${req.params.id}`,
-  });
+  res.status(204).send();
 };
 
 const deleteUserById = async (req, res) => {
+  if (req.user.id != req.params.id && !req.user.isAdmin) {
+    return res.status(403).json({ message: "Permissão insuficiente" });
+  }
+
   await userModel.destroy({
     where: { id: req.params.id },
   });
+
   res.status(201).send({
     message: `Usuário com ID: ${req.params.id} deletado com sucesso!`,
   });
@@ -59,7 +55,6 @@ const deleteUserById = async (req, res) => {
 
 module.exports = {
   createNewUser,
-  userList,
   userUpdate,
   deleteUserById,
   findUserById,

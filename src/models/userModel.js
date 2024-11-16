@@ -14,6 +14,12 @@ let userModel = connection.define("users", {
     validate: { notEmpty: { msg: "O surname não pode estar vazio" } },
   },
 
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+
   cpf: {
     type: DataTypes.BIGINT,
     allowNull: false,

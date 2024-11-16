@@ -1,4 +1,3 @@
-const { Op } = require("sequelize");
 const Category = require("../models/categoryModel");
 
 async function middlewareCreateCategory(req, res, next) {

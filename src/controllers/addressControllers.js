@@ -1,5 +1,4 @@
 const addressModel = require("../models/addressModel");
-const userModel = require("../models/userModel");
 
 const createNewAddress = async (req, res) => {
   const { street, number, neighborhood, city, cep, complement } = req.body;
