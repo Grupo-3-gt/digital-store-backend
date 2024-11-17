@@ -29,12 +29,27 @@ let productOptionModel = connection.define("product_options", {
     type: DataTypes.ENUM("square", "circle"),
     allowNull: true,
     defaultValue: "square",
+    validate: {
+      isIn: {
+        args: [["square", "circle"]],
+        msg: "O formato deve ser 'square' ou 'circle'.",
+      },
+    },
   },
 
   radius: {
     type: DataTypes.INTEGER,
     allowNull: true,
     defaultValue: 0,
+    validate: {
+      isInt: {
+        msg: "O campoo 'radius' deve ser um número inteiro.",
+      },
+      min: {
+        args: [0],
+        msg: "O  campo 'radius' não pode ser negativo.",
+      },
+    },
   },
 
   type: {

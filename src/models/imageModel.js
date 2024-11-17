@@ -1,32 +1,36 @@
-const { DataTypes } = require('sequelize');
-const connection = require('../config/database/connection');
-const productModel = require('../models/productModel');
+const { DataTypes } = require("sequelize");
+const connection = require("../config/database/connection");
+const productModel = require("./productModel");
 
-let productImageModel = connection.define('product_images', {
+let productImageModel = connection.define("product_images", {
   product_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: productModel,
-      key: 'id',
+      key: "id",
     },
-    onDelete: 'CASCADE',
+    onDelete: "CASCADE",
   },
+
   enabled: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
     allowNull: true,
   },
+
   path: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      notEmpty: true,
+      notEmpty: {
+        msg: "O path não pode estar vazio.",
+      },
       len: {
-        args: [1, 255],
-        msg: "O caminho deve ter entre 1 e 255 caracteres."
-      }
-    }
+        args: [1],
+        msg: "O campo 'path' deve ter pelo menos 1 caractere.",
+      },
+    },
   },
 });
 

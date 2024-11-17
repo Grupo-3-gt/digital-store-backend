@@ -1,5 +1,9 @@
 const { DataTypes } = require("sequelize");
 const connection = require("../config/database/connection");
+const productImageModel = require("./imageModel")
+const productOptionsModel = require("./productOptionModel");
+const categoryModel = require("./categoryModel");
+const productCategoryModel = require("./productCategoryModel");
 
 let productModel = connection.define("products", {
   enabled: {
@@ -88,6 +92,21 @@ let productModel = connection.define("products", {
       },
     },
   },
+});
+
+productModel.hasMany(productCategoryModel, {
+  foreignKey: "product_id",
+  as: "category_ids",
+});
+
+productModel.hasMany(productImageModel, {
+  foreignKey: "product_id",
+  as: "images",
+});
+
+productModel.hasMany(productOptionsModel, {
+  foreignKey: "product_id",
+  as: "options",
 });
 
 module.exports = productModel;

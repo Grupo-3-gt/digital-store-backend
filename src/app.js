@@ -4,7 +4,10 @@ app.use(express.json());
 
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes')
+const categoryRoutes = require ('./routes/categoryRoutes')
+const addressRoutes = require('./routes/addressRoutes')
+const authRoutes = require('./routes/authRoutes')
 
-app.use(userRoutes, productRoutes)
+app.use(userRoutes, categoryRoutes, addressRoutes, authRoutes, productRoutes);
 
 module.exports = app ;
