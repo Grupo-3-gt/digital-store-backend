@@ -1,41 +1,72 @@
-const { DataTypes } = require('sequelize');
-const connection = require('../config/database/connection');
-const productModel = require('../models/productModel')
+const { DataTypes } = require("sequelize");
+const connection = require("../config/database/connection");
+const productModel = require("../models/productModel");
 
-let productOptionModel = connection.define('product_options', {
+let productOptionModel = connection.define("product_options", {
   product_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: productModel,
-      key: 'id',
+      key: "id",
     },
-    onDelete: 'CASCADE',
+    onDelete: "CASCADE",
   },
+
   title: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  shape: {
-    type: DataTypes.ENUM('square', 'circle'),
-    allowNull: true,
-    defaultValue: 'square',
-  },
-  radius: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: 0,
-  },
-  type: {
-    type: DataTypes.ENUM('text', 'color'),
-    allowNull: true,
-    defaultValue: 'text',
-  },
-  values: {
     type: DataTypes.STRING(255),
     allowNull: false,
     validate: {
       notEmpty: true,
+      len: {
+        args: [1, 255],
+        msg: "O título deve ter entre 1 e 255 caracteres.",
+      },
+    },
+  },
+
+  shape: {
+    type: DataTypes.ENUM("square", "circle"),
+    allowNull: true,
+    defaultValue: "square",
+    validate: {
+      isIn: {
+        args: [["square", "circle"]],
+        msg: "O formato deve ser 'square' ou 'circle'.",
+      },
+    },
+  },
+
+  radius: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0,
+    validate: {
+      isInt: {
+        msg: "O campoo 'radius' deve ser um número inteiro.",
+      },
+      min: {
+        args: [0],
+        msg: "O  campo 'radius' não pode ser negativo.",
+      },
+    },
+  },
+
+  type: {
+    type: DataTypes.ENUM("text", "color"),
+    allowNull: true,
+    defaultValue: "text",
+  },
+
+  values: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+      len: {
+        args: [1, 255],
+        msg: "Os valores devem ter entre 1 e 255 caracteres.",
+      },
     },
   },
 });
