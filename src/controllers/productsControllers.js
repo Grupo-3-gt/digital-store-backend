@@ -12,6 +12,9 @@ async function createProduct(req, res) {
     name,
     slug,
     stock,
+    mark,
+    gender,
+    state,
     description,
     price,
     price_with_discount,
@@ -43,6 +46,9 @@ async function createProduct(req, res) {
         name,
         slug,
         stock,
+        gender,
+        state,
+        mark,
         description,
         price,
         price_with_discount,
@@ -161,15 +167,26 @@ async function listProducts(req, res) {
           as: "options",
           attributes: { exclude: ["createdAt", "updatedAt"] },
         },
-        { model: productCategoryModel, as: "category_ids", attributes: ["id"] },
+        {
+          model: productCategoryModel,
+          as: "category_ids",
+          attributes: ["category_id"],
+        },
       ],
       attributes,
       limit: limitValue > 0 ? limitValue : undefined,
       offset,
     });
 
+    const newProductsArr = products.map((product) => ({
+      ...product.toJSON(),
+      category_ids: product.category_ids.map(
+        (category) => category.category_id
+      ),
+    }));
+
     res.status(200).json({
-      data: products,
+      data: newProductsArr,
       total,
       limit: limitValue > 0 ? limitValue : undefined,
       page: limitValue > 0 ? page : undefined,
@@ -201,15 +218,24 @@ async function getProductById(req, res) {
         as: "options",
         attributes: { exclude: ["createdAt", "updatedAt"] },
       },
-      { model: productCategoryModel, as: "category_ids", attributes: ["id"] },
+      {
+        model: productCategoryModel,
+        as: "category_ids",
+        attributes: ["category_id"],
+      },
     ],
   });
 
-  if(!product){
+  if (!product) {
     return res.status(400).send({ message: "produto não encontrado" });
   }
 
-  res.status(200).send(product)
+  const newProductsArr = {
+    ...product.toJSON(),
+    category_ids: product.category_ids.map((category) => category.category_id),
+  };
+
+  res.status(200).send(newProductsArr);
 }
 
 async function deleteProduct(req, res) {
@@ -221,13 +247,13 @@ async function deleteProduct(req, res) {
 
   const product = await productModel.findByPk(id);
 
-  if(!product){
+  if (!product) {
     return res.status(400).send({ message: "produto não encontrado" });
   }
 
-  product.destroy()
+  product.destroy();
 
-  res.status(204).send()
+  res.status(204).send();
 }
 
 module.exports = { createProduct, listProducts, getProductById, deleteProduct };

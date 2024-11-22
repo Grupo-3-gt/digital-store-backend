@@ -56,6 +56,12 @@ let productOptionModel = connection.define("product_options", {
     type: DataTypes.ENUM("text", "color"),
     allowNull: true,
     defaultValue: "text",
+    validate: {
+      isIn: {
+        args: [["text", "color"]],
+        msg: "O formato do campo /type/ deve ser 'text' ou 'color'.",
+      },
+    },
   },
 
   values: {

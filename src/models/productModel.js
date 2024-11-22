@@ -2,7 +2,6 @@ const { DataTypes } = require("sequelize");
 const connection = require("../config/database/connection");
 const productImageModel = require("./imageModel")
 const productOptionsModel = require("./productOptionModel");
-const categoryModel = require("./categoryModel");
 const productCategoryModel = require("./productCategoryModel");
 
 let productModel = connection.define("products", {
@@ -32,6 +31,40 @@ let productModel = connection.define("products", {
       len: {
         args: [1, 150],
         msg: "O slug deve ter entre 1 e 150 caracteres.",
+      },
+    },
+  },
+
+  mark: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+      len: {
+        args: [1, 100],
+        msg: "A mark deve ter entre 1 e 100 caracteres.",
+      },
+    },
+  },
+
+  gender: {
+    type: DataTypes.ENUM("masculino", "feminino", "unisex"),
+    allowNull: false,
+    validate: {
+      isIn: {
+        args: [["masculino", "feminino", "unisex"]],
+        msg: "O formato do campo /gender/ deve ser 'masculino', 'feminino' ou 'unisex'",
+      },
+    },
+  },
+
+  state: {
+    type: DataTypes.ENUM("usado", "novo"),
+    allowNull: false,
+    validate: {
+      isIn: {
+        args: [["usado", "novo"]],
+        msg: "O formato do campo /state/ deve ser 'usado' ou 'novo'",
       },
     },
   },
