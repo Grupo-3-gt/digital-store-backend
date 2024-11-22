@@ -19,7 +19,7 @@ const loginAuth = async (req, res) => {
                 token: token,
             })
         } else {
-            res.send({
+            res.status(401).send({
                 message: 'Usuário ou senha inválidos!'
             })
         }
