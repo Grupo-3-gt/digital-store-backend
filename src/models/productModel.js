@@ -114,8 +114,9 @@ let productModel = connection.define("products", {
 
   price_with_discount: {
     type: DataTypes.FLOAT,
-    allowNull: true,
+    allowNull: false,
     validate: {
+      notEmpty: true,
       isFloat: {
         msg: "O preço com desconto deve ser um número válido.",
       },
@@ -127,14 +128,14 @@ let productModel = connection.define("products", {
   },
 });
 
-productModel.hasMany(productCategoryModel, {
-  foreignKey: "product_id",
-  as: "category_ids",
-});
-
 productModel.hasMany(productImageModel, {
   foreignKey: "product_id",
   as: "images",
+});
+
+productModel.hasMany(productCategoryModel, {
+  foreignKey: "product_id",
+  as: "category_ids",
 });
 
 productModel.hasMany(productOptionsModel, {

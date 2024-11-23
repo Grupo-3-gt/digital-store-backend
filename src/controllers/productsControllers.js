@@ -37,9 +37,31 @@ async function createProduct(req, res) {
     });
   }
 
+  if (
+    !Array.isArray(category_ids) ||
+    !category_ids.every(Number.isInteger) || 
+    category_ids.length === 0 
+  ) {
+    return res.status(400).json({
+      message: "O campo 'category_ids' deve ser um array de números inteiros e não pode estar vazio.",
+    });
+  }
+  
+
   const transaction = await connection.transaction();
 
   try {
+    const categories = await categoryModel.findAll({
+      where: { id: category_ids },
+      attributes: ['id'],
+    });
+  
+    if (categories.length !== category_ids.length) {
+      return res.status(400).json({
+        message: "Um ou mais IDs de categoria não existem.",
+      });
+    }
+
     const product = await productModel.create(
       {
         enabled,

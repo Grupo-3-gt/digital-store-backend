@@ -1,13 +1,12 @@
 const { DataTypes } = require("sequelize");
 const connection = require("../config/database/connection");
-const productModel = require("../models/productModel");
 
 let productOptionModel = connection.define("product_options", {
   product_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: productModel,
+      model: "products",
       key: "id",
     },
     onDelete: "CASCADE",
